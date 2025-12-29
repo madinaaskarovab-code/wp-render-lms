@@ -1,5 +1,9 @@
 FROM wordpress:6.5-php8.2-apache
 
+# Устанавливаем unzip
+RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
+
+# Включаем нужные модули Apache
 RUN a2enmod rewrite headers expires
 
 # Устанавливаем SQLite integration
