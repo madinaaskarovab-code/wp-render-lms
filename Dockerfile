@@ -12,5 +12,11 @@ RUN curl -L https://downloads.wordpress.org/plugin/sqlite-database-integration.z
  && rm /tmp/sqlite.zip
 
 # Активируем SQLite
-RUN cp /var/www/html/wp-content/plugins/sqlite-database-integration/db.php \
-      /var/www/html/wp-content/db.php
+# Активируем SQLite (в разных версиях файла может быть db.php или db.copy)
+RUN if [ -f /var/www/html/wp-content/plugins/sqlite-database-integration/db.php ]; then \
+      cp /var/www/html/wp-content/plugins/sqlite-database-integration/db.php /var/www/html/wp-content/db.php; \
+    elif [ -f /var/www/html/wp-content/plugins/sqlite-database-integration/db.copy ]; then \
+      cp /var/www/html/wp-content/plugins/sqlite-database-integration/db.copy /var/www/html/wp-content/db.php; \
+    else \
+      echo "SQLite plugin file not found" && ls -la /var/www/html/wp-content/plugins/sqlite-database-integration && exit 1; \
+    fi
