@@ -5,11 +5,6 @@ services:
     plan: free
     autoDeploy: true
 
-    disk:
-      name: wp-content
-      mountPath: /var/www/html/wp-content
-      sizeGB: 1
-
     envVars:
       - key: WORDPRESS_DB_HOST
         fromDatabase:
