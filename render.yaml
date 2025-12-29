@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: wp-lms
+    env: docker
+    plan: free
+    autoDeploy: true
+
+    disk:
+      name: wp-content
+      mountPath: /var/www/html/wp-content
+      sizeGB: 1
+
+    envVars:
+      - key: WORDPRESS_DB_HOST
+        fromDatabase:
+          name: wp-db
+          property: host
+      - key: WORDPRESS_DB_USER
+        fromDatabase:
+          name: wp-db
+          property: user
+      - key: WORDPRESS_DB_PASSWORD
+        fromDatabase:
+          name: wp-db
+          property: password
+      - key: WORDPRESS_DB_NAME
+        fromDatabase:
+          name: wp-db
+          property: database
+
+databases:
+  - name: wp-db
+    plan: free
+    databaseName: wordpress
+    user: wordpress
